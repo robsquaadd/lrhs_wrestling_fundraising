@@ -1,0 +1,95 @@
+header {
+	background-color: #355E3B;
+	border-style: none;
+	overflow: auto;
+}
+
+body{
+	padding: 0px;
+	margin: 0px;
+	background-color: #355E3B;
+	height: fit-content;
+}
+
+.header {
+	margin-left: 25%;
+	margin-right: 25%;
+	margin-top: 50px;
+	padding: 5px;
+	width: auto;
+	text-align: center;
+	background-color: rgba(255,255,255,0.5);
+	border-radius: 10px;
+	height: fit-content;
+}
+
+#main_section {
+	height: 100vh;
+	display: flex;
+	flex-wrap: wrap;
+	background-image: url("./files/background_photo.jpeg");
+	background-size: cover;
+	background-color: #000000;
+	background-position: center;
+	align-items: top;
+	justify-content: center;
+}
+
+#below_main {
+	background-color: #355E3B;
+	height: 100vh;
+}
+
+#lrhs_logo {
+	height: 75px;
+	width: 75px;
+	padding: 10px;
+}
+
+#video_container {
+	width: 560px;
+	margin: 20px;
+}
+
+#progress_bar_container {
+	margin-left: 25%;
+	margin-right: 25%;
+	border-style: solid;
+	border-color: #355E3B;
+	width: 50%;
+	height: 100px;
+}
+
+#progress_bar {
+	background-color: #355E3B;
+	color: #355E3B;
+	height: 100px;
+}
+
+#form_container {
+	background-color: rgba(255,255,255,0.67);
+	z-index: 1;
+	width: 35%;
+	height: fit-content;
+	border-radius: 10px;
+	margin: 20px;
+	padding: 20px;
+}
+
+input {
+	width: 100%;
+	border-style: solid;
+	border-radius: 10px;
+	height: 25px;
+	margin-top: 10px;
+}
+
+.click_button {
+	margin-top: 20px;
+	background-color: #355E3B;
+	color: white;
+	border-style: none;
+	width: 100%;
+	height: 50px;
+	border-radius: 10px;
+}
