@@ -29,8 +29,20 @@ router.post("/",async (req,res) => {
 	}
 });
 
-/*router.get("/", (req, res) => {
-	TODO: grabs all emails and phone numbers, connects them to twilio api, sends templated email or text message to numbers and emails.	
-}*/
+router.get("/", async (req, res) => {
+	//TODO: grabs all emails and phone numbers, connects them to twilio api, sends templated email or text message to numbers and emails.	
+	try {
+		const response = await fs.readFile("mailing_list.csv", 'utf-8', (err, data) => {
+			if (err) {
+				res.status(404).send("File Not Found!");
+			} else {
+				console.log(data);
+				res.status(200).send(data);
+			}
+		});
+	} catch (err) {
+		res.status(500).send("There was an error retrieving the data. Please try again later!");
+	}
+});
 
 module.exports = router;
