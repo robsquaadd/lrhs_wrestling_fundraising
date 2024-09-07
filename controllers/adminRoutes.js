@@ -1,23 +1,7 @@
+const router = require("express").Router();
 const twilio = require("twilio");
-const nodemailer = require("nodemailer");
+const nodemailer = require("nodemailer")
 require("dotenv").config();
-
-const mailingListProcessor = async () => {
-	try {
-		const response = await fetch('http://localhost:3001/mailingList', {
-			method: "GET"
-		});
-		const data = await response.text();
-		let dataArray = data.split("\n");
-		for (let i=0;i<dataArray.length;i++) {
-			dataArray[i] = dataArray[i].split(",");
-		}
-		dataArray.pop();
-		return dataArray;	
-	} catch (err) {
-		console.error(err.message);
-	}
-}
 
 const sendWithTwilio = async (mailingList) => {
 	try {
@@ -38,8 +22,6 @@ const sendWithTwilio = async (mailingList) => {
 }
 
 const sendEmails = async (mailingList) => {
-	console.log(process.env.GMAIL_ACCOUNT_EMAIL);
-	console.log(process.env.GMAIL_ACCOUNT_PASSWORD);
 	let transporter = nodemailer.createTransport({
 		service: 'gmail',
 		auth: {
@@ -65,10 +47,23 @@ const sendEmails = async (mailingList) => {
 	}
 }
 
-const mainFunction = async () => {
-	let mailingList = await  mailingListProcessor();
-	//sendWithTwilio(mailingList);
-	sendEmails(mailingList);
-}
 
-mainFunction();
+
+router.post("/first_email", async (req, res) => {
+	try {
+		let mailingList = req.body["string"]
+		let mailingListArray = mailingList.split("\n");
+		for (let i=0;i<mailingListArray.length;i++) {
+			mailingListArray[i] = mailingListArray[i].split(',')
+		};
+		await sendEmails(mailingListArray);
+		//await sendWithTwilio(req.body);
+		
+		res.send("Messages sent successfully")
+	} catch (err) {
+		console.error(err);
+	}
+});
+
+
+module.exports = router;
