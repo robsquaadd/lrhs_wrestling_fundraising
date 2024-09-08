@@ -1,6 +1,7 @@
 const express = require('express');
 const routes = require("./controllers")
 const Sequelize = require('sequelize')
+const path = require("path")
 require("dotenv").config();
 
 /*let sequelize;
@@ -20,5 +21,9 @@ const PORT = process.env.PORT || 3001;
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(routes);
+
+app.use("/", () = > {
+	res.sendFile(path.join(__dirname, 'index.html'));
+});
 
 app.listen(PORT, () => {console.log(`Server is running on port ${PORT}`)});
