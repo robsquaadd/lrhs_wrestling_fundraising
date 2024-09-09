@@ -6,7 +6,7 @@ async function formSubmitted() {
 		email: inputsList[2].value,
 		phone: inputsList[3].value
 	};
-	const url = "http://localhost:3001/mailingList";
+	const url = "/mailingList";
 	const response = await fetch(url, {
 		method: "POST",
 		body: content,
@@ -20,6 +20,7 @@ async function formSubmitted() {
 	else {
 		alert(response.statusText);
 	}
+	document.location.replace("/");
 }
 
 const progressBar = () => {
