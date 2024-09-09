@@ -33,9 +33,13 @@ const mainFunction = () => {
 	let email1=document.getElementById("send_email_1");
 	let email2=document.getElementById("send_email_2");
 	let email3=document.getElementById("send_email_3");
-	email1.addEventListener("click",(e)=>{
-		let mailingList = mailingListProcessor();
-		sendEmails(e.target, mailingList);
+	email1.addEventListener("click", async (e)=>{
+		try {
+			let mailingList = await mailingListProcessor();
+			await sendEmails(e.target, mailingList);
+		} catch (err) {
+			console.error(err);
+		}
 	});
 	email2.addEventListener("click",()=>{
 		let mailingList = mailingListProcessor();
