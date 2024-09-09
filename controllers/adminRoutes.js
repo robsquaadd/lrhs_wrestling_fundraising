@@ -49,6 +49,7 @@ const sendEmails = async (mailingList) => {
 
 router.post("/first_email", async (req, res) => {
 	try {
+		console.log(req.body);
 		let mailingList = req.body["string"]
 		let mailingListArray = mailingList.split("\n");
 		for (let i=0;i<mailingListArray.length;i++) {
