@@ -4,6 +4,7 @@ const mailingListProcessor = async () => {
 			method: "GET"
 		});
 		const data = await response.text();
+		console.log(data);
 		let messageObject = {}
 		messageObject["string"] = data;
 		return messageObject;
