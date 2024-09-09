@@ -4,7 +4,6 @@ const mailingListProcessor = async () => {
 			method: "GET"
 		});
 		const data = await response.text();
-		console.log(data);
 		let messageObject = {}
 		messageObject["string"] = data;
 		return messageObject;
@@ -23,7 +22,6 @@ const sendEmails = async (clickedButton, mailingList) => {
 				"Content-Type": "application/json",
 			}
 		});
-		console.log(response);
 	} catch (err) {
 		console.error(err.message);
 	}

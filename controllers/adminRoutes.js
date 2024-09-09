@@ -41,7 +41,7 @@ const sendEmails = async (mailingList) => {
 			if (err) {
 				console.log(err);
 			} else {
-				console.log("Email Sent: " + info.response);
+				console.log("Email Sent!");
 			}
 		});
 	}
@@ -49,16 +49,13 @@ const sendEmails = async (mailingList) => {
 
 router.post("/first_email", async (req, res) => {
 	try {
-		console.log(req.body);
 		let mailingList = req.body["string"]
-		console.log(mailingList);
 		let mailingListArray = mailingList.split("\n");
 		for (let i=0;i<mailingListArray.length;i++) {
 			mailingListArray[i] = mailingListArray[i].split(',')
 		};
 		await sendEmails(mailingListArray);
 		//await sendWithTwilio(req.body);
-		
 		res.send("Messages sent successfully")
 	} catch (err) {
 		console.error(err);
