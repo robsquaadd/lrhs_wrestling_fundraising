@@ -1,6 +1,6 @@
 const mailingListProcessor = async () => {
 	try {
-		const response = await fetch('http://localhost:3001/mailingList', {
+		const response = await fetch(`/mailingList`, {
 			method: "GET"
 		});
 		const data = await response.text();
@@ -14,7 +14,7 @@ const mailingListProcessor = async () => {
 
 const sendEmails = async (clickedButton, mailingList) => {
 	try {
-		const response = await fetch("/admin/first_email",
+		const response = await fetch(`/admin/first_email`,
 		{
 			method: "POST",
 			body: mailingList,
