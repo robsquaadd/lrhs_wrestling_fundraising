@@ -9,7 +9,7 @@ async function formSubmitted() {
 	const url = `/mailingList`;
 	const response = await fetch(url, {
 		method: "POST",
-		body: content,
+		body: JSON.stringify(content),
 		headers: {
 			"Content-type": "application/json",
 		},
@@ -20,7 +20,6 @@ async function formSubmitted() {
 	else {
 		alert(response.statusText);
 	}
-	document.location.replace("/");
 }
 
 const progressBar = () => {
