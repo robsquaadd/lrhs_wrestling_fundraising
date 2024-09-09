@@ -47,11 +47,10 @@ const sendEmails = async (mailingList) => {
 	}
 }
 
-
-
 router.post("/first_email", async (req, res) => {
 	try {
-		let mailingList = req.body["string"]
+		let mailingListJSON = JSON.parse(req.body)
+		let mailingList = mailingListJSON["string"]
 		let mailingListArray = mailingList.split("\n");
 		for (let i=0;i<mailingListArray.length;i++) {
 			mailingListArray[i] = mailingListArray[i].split(',')
@@ -64,6 +63,5 @@ router.post("/first_email", async (req, res) => {
 		console.error(err);
 	}
 });
-
 
 module.exports = router;
