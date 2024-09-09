@@ -6,7 +6,7 @@ async function formSubmitted() {
 		email: inputsList[2].value,
 		phone: inputsList[3].value
 	};
-	const url = "/mailingList";
+	const url = `/mailingList`;
 	const response = await fetch(url, {
 		method: "POST",
 		body: content,
