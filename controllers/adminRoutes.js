@@ -1,6 +1,8 @@
 const router = require("express").Router();
 const twilio = require("twilio");
-const nodemailer = require("nodemailer")
+const nodemailer = require("nodemailer");
+const Imap = require("node-imap");
+const inspect = require("util").inspect;
 require("dotenv").config();
 
 const sendWithTwilio = async (mailingList) => {
@@ -46,6 +48,72 @@ const sendEmails = async (mailingList) => {
 		});
 	}
 }
+
+const readEmails = () => {
+	const imap = new Imap({
+		user: "robert.collier.120@gmail.com", 
+		password: process.env.GMAIL_ACCOUNT_PASSWORD,
+		host: 'imap.gmail.com',
+		port: 993,
+		tls: true
+	});
+	imap.once("ready", () => {
+		imap.openBox('INBOX', true,  (err, box) => {
+			if (err) throw err;
+			let f = imap.seq.fetch(`${box.messages.total-2}:${box.messages.total}`, {
+				bodies: ["HEADER.FIELDS (FROM SUBJECT TO DATE)","1"],
+				struct: true
+			});
+			f.on("message", (msg, seqno) => {
+				console.log(`Message #${seqno}`); 
+				msg.on("body", (stream, info) => {
+					let buffer = '';
+					stream.on('data', (chunk) => {
+						buffer += chunk.toString('utf8');
+					});
+					stream.once('end', () => {
+						if (info.which === "1") {
+							console.log(`Parsed Body: ${buffer}`);
+						} else {
+							console.log(`Parsed Header: ${inspect(Imap.parseHeader(buffer))}`);
+						}
+					});
+				});
+				msg.once("attributes", (attributes) => {
+					console.log(`Attributes: ${inspect(attributes,false,8)}`);
+				});
+				msg.once("end", () => {
+					console.log(`Message #${seqno} finished`);
+				});
+			});
+			f.once("error", (err) => {
+				console.log(`Fetch Error: ${err}`);
+			});
+			f.once("end", () => {
+				console.log("done fetching all messages");
+				imap.end();
+			});
+		});
+	});
+	imap.once("error", (err) => {
+		console.error(err);
+	});
+	imap.once("end", ()=> {
+		console.log("connection ended");
+		return "successful";
+	});
+	imap.connect();
+}
+
+router.get("/update_database", (req, res) => {
+	try {
+		let emailResponse= readEmails();
+		res.send(emailResponse);
+	} catch(err) {
+		console.error(err);
+	}
+});
+
 
 router.post("/first_email", async (req, res) => {
 	try {
