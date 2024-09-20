@@ -60,12 +60,11 @@ const readEmails = () => {
 	imap.once("ready", () => {
 		imap.openBox('INBOX', true,  (err, box) => {
 			if (err) throw err;
-			let f = imap.seq.fetch(`${box.messages.total-2}:${box.messages.total}`, {
+			let f = imap.seq.fetch(`${box.messages.total-32}:${box.messages.total-30}`, {
 				bodies: ["HEADER.FIELDS (FROM SUBJECT TO DATE)","1"],
 				struct: true
 			});
 			f.on("message", (msg, seqno) => {
-				console.log(`Message #${seqno}`); 
 				msg.on("body", (stream, info) => {
 					let buffer = '';
 					stream.on('data', (chunk) => {
@@ -73,9 +72,10 @@ const readEmails = () => {
 					});
 					stream.once('end', () => {
 						if (info.which === "1") {
-							console.log(`Parsed Body: ${buffer}`);
+							let decodedBody = Buffer.from(buffer, "base64").toString('utf8');
+							console.log(`Message ${seqno}\n Parsed Body: ${decodedBody}`);
 						} else {
-							console.log(`Parsed Header: ${inspect(Imap.parseHeader(buffer))}`);
+							console.log(`Message ${seqno}\n Parsed Header: ${inspect(Imap.parseHeader(buffer))}`);
 						}
 					});
 				});

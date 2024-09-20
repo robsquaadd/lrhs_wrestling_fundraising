@@ -25,8 +25,8 @@ async function formSubmitted() {
 const progressBar = () => {
 	let progressBar = document.getElementById("progress_bar");
 	let progressHeader = document.getElementById("progress_bar_header");
-	let donatedValue = 4651.29;
-	let goalValue = 10000.00;
+	let donatedValue = 1000.00;
+	let goalValue = 12000.00;
 	let percent_width = donatedValue/goalValue * 100;
 	progressBar.style.width = percent_width.toString() + "%";
 	progressHeader.textContent = `We have raised $${donatedValue.toString()} of our $${goalValue.toString()} goal! Thank you so much for your support!`
