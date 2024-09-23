@@ -1,10 +1,12 @@
 async function formSubmitted() {
 	let inputsList = document.getElementsByClassName("form_input");
+	let parsedPhone = inputsList[3].value.replaceAll(/[^0-9]/g, "");
+	console.log(parsedPhone);
 	let content = {
 		first: inputsList[0].value,
 		last: inputsList[1].value,
 		email: inputsList[2].value,
-		phone: inputsList[3].value
+		phone: parsedPhone
 	};
 	const url = `/mailingList`;
 	const response = await fetch(url, {
@@ -15,7 +17,7 @@ async function formSubmitted() {
 		},
 	});
 	if (response.ok) {
-		document.location.replace("/");
+		//document.location.replace("/");
 	}
 	else {
 		alert(response.statusText);
@@ -25,7 +27,7 @@ async function formSubmitted() {
 const progressBar = () => {
 	let progressBar = document.getElementById("progress_bar");
 	let progressHeader = document.getElementById("progress_bar_header");
-	let donatedValue = 1000.00;
+	let donatedValue = 0.00;
 	let goalValue = 12000.00;
 	let percent_width = donatedValue/goalValue * 100;
 	progressBar.style.width = percent_width.toString() + "%";
