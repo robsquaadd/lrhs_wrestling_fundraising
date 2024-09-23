@@ -16,7 +16,7 @@ router.post("/",async (req,res) => {
 	if (first === undefined || last === undefined || email === undefined || phone === undefined) {
 		res.status(400).send("Bad Request!");
 	}
-	const newsletterString = first + "," +  last + "," +  email + "," + phone + "\n";
+	const newsletterString = first + "," +  last + "," +  email + "," + phone + ",0\n";
 	
 	try {
 		const response = await updateDataBase(newsletterString);
