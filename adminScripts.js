@@ -15,8 +15,14 @@ const mailingListProcessor = async () => {
 const sendEmails = async (clickedButtonValue, mailingList) => {
 	try {
 		let slug = "";
-		console.log(clickedButtonValue);
-		const response = await fetch(`/admin/first_email`,
+		if (clickedButtonValue === "Send 1st Targeted Email/Text") {
+			slug = "first_email";
+		} else if (clickedButtonValue === "Send 2nd Targeted Email/Text") {
+			slug = "second_email";
+		} else if (clickedButtonValue === "Send 3rd Targeted Email/Text") {
+			slug = "third_email"
+		}
+		const response = await fetch(`/admin/${slug}`,
 		{
 			method: "POST",
 			body: JSON.stringify(mailingList),
@@ -33,21 +39,29 @@ const mainFunction = () => {
 	let email1=document.getElementById("send_email_1");
 	let email2=document.getElementById("send_email_2");
 	let email3=document.getElementById("send_email_3");
-	email1.addEventListener("click", async (e)=>{
+	email1.addEventListener("click", async (e) => {
 		try {
 			let mailingList = await mailingListProcessor();
-			await sendEmails(e.target.value, mailingList);
+			await sendEmails(e.target.innerText, mailingList);
 		} catch (err) {
 			console.error(err);
 		}
 	});
-	email2.addEventListener("click",()=>{
-		let mailingList = mailingListProcessor();
-		//sendEmails(e.target, mailingList);
+	email2.addEventListener("click", async (e) => {
+		try {
+			let mailingList = mailingListProcessor();
+			sendEmails(e.target.innerText, mailingList);
+		} catch (err) {
+			console.error(err);
+		}
 	}); 
-	email3.addEventListener("click",()=>{
-		let mailingList = mailingListProcessor();
-		//sendEmails(e.target, mailingList);
+	email3.addEventListener("click",() => {
+		try {
+			let mailingList = mailingListProcessor();
+			sendEmails(e.target, mailingList);
+		} catch (err) {
+			console.error(err);
+		}
 	}); 
 }
 
