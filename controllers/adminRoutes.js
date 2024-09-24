@@ -7,13 +7,13 @@ require("dotenv").config();
 
 const sendWithTwilio = async (mailingList) => {
 	try {
-		console.log(mailingList);
 		const accountSID = process.env.TWILIO_ACCOUNT_SID;
 		const authToken = process.env.TWILIO_AUTH_TOKEN;
 		const client = twilio(accountSID, authToken);
+		const fundraisingLink = "https://polar-lake-08946-5b3daeb6c84d.herokuapp.com";
 		for (let i=0;i<mailingList.length;i++) {
 			 let message = await client.messages.create({
-				body: "This is a test message.",
+				body: `Hey Mustang Family! This is Coach Collier from the Lakewood Ranch High School Wrestling Team! We are looking forward to an exciting wrestling season this year! But, we need your help! Our team is looking to raise $12,000 to cover tournament and gear expenses for the season! If you'd like to help us reach that goal, please go to our fundraising campaign page here: ${fundraisingLink} and click the button that says Donate Now! Whether you donate $2 or $2000 every donation counts!Thank you in advance for all of your support! Vamos Mustangos!`,
 				from: "+19286934017",
 				to: "+1" + mailingList[i][3],
 			});
@@ -35,7 +35,66 @@ const sendEmails = async (mailingList) => {
 		from: "robert.collier.120@gmail.com",
 		to:"collierr@manateeschools.net", 
 		subject: "subject",
-		text: "this is a test"
+		html: `<!DOCTYPE html>
+<html>
+	<head>
+		<style>
+			body {
+				display: flex;
+				padding: 0px;
+				margin: 0px;
+			}
+			.green-section {
+				background-color: #355E3B;
+				width: 20%;
+				height: 100vh;
+			}
+			#main-section {
+				background-color: #FFFFFF;
+				width: 60%;
+				height: 100vh;
+				padding: 20px;
+			}
+			button {
+				background-color: #355E3B;
+				border-style: none;
+				border-radius: 5px;
+				width: 40%;
+				height: 5%;
+				margin-left: 30%;
+				margin-right: 30%;
+				margin-top: 20px;
+				color: #FFFFFF;
+				font-weight: bold;
+				font-size: 1em;
+			}
+			a {
+				text-decoration: none;
+				color: #FFFFFF;
+			}
+			#body-text {
+				font-size: 24px;
+			}
+			@media (max-width: 1024px){
+				button {
+					margin-left: 10%;
+					margin-right: 10%;
+					width: 80%;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div class="green-section"></div>
+		<div id="main-section">
+			<p id="body-text">
+				Hey Mustang Family!<br><br>This is Coach Collier from the Lakewood Ranch High School Wrestling Team! We are looking forward to an exciting wrestling season this year! But, we need your help! Our team is looking to raise $12,000 to cover tournament and gear expenses for the season! If you'd like to help us reach that goal, please go to our fundraising campaign page below and click the button that says Donate Now! Whether you donate $2 or $2000 every donation counts!<br><br>Thank you in advance for all of your support! Vamos Mustangos!,
+			</p>
+			<button><a href="https://polar-lake-08946-5b3daeb6c84d.herokuapp.com">LRHS Wrestling Fundraising Page</a></button>
+		</div>
+		<div class="green-section"></div>
+	</body>
+</html>`
 	}
 	for (let i=0;i<mailingList.length;i++) {
 		mailOptions.to = mailingList[i][2];
@@ -123,7 +182,7 @@ router.post("/first_email", async (req, res) => {
 			mailingListArray[i] = mailingListArray[i].split(',')
 		};
 		await sendEmails(mailingListArray);
-		//await sendWithTwilio(req.body);
+		await sendWithTwilio(mailingListArray);
 		res.send("Messages sent successfully")
 	} catch (err) {
 		console.error(err);

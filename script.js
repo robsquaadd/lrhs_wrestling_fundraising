@@ -1,7 +1,6 @@
 async function formSubmitted() {
 	let inputsList = document.getElementsByClassName("form_input");
 	let parsedPhone = inputsList[3].value.replaceAll(/[^0-9]/g, "");
-	console.log(parsedPhone);
 	let content = {
 		first: inputsList[0].value,
 		last: inputsList[1].value,
@@ -17,16 +16,20 @@ async function formSubmitted() {
 		},
 	});
 	if (response.ok) {
-		//document.location.replace("/");
+		document.location.replace("/");
 	}
 	else {
 		alert(response.statusText);
 	}
 }
 
-const progressBar = () => {
+const progressBar = async () => {
 	let progressBar = document.getElementById("progress_bar");
 	let progressHeader = document.getElementById("progress_bar_header");
+	/*let response = await fetch('/admin/update_database,{
+		method: "GET"
+	});
+	let data = await response.json();*/
 	let donatedValue = 0.00;
 	let goalValue = 12000.00;
 	let percent_width = donatedValue/goalValue * 100;
