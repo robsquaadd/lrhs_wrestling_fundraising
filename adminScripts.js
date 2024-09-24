@@ -12,8 +12,10 @@ const mailingListProcessor = async () => {
 	}
 }
 
-const sendEmails = async (clickedButton, mailingList) => {
+const sendEmails = async (clickedButtonValue, mailingList) => {
 	try {
+		let slug = "";
+		console.log(clickedButtonValue);
 		const response = await fetch(`/admin/first_email`,
 		{
 			method: "POST",
@@ -34,7 +36,7 @@ const mainFunction = () => {
 	email1.addEventListener("click", async (e)=>{
 		try {
 			let mailingList = await mailingListProcessor();
-			await sendEmails(e.target, mailingList);
+			await sendEmails(e.target.value, mailingList);
 		} catch (err) {
 			console.error(err);
 		}
