@@ -30,7 +30,6 @@ const progressBar = async () => {
 		let response = await fetch('/admin/update_database',{
 			method: "GET"
 		});
-		await new Promise(r => setTimeout(r, 5000));
 		let data = await response.json();
 		console.log(data)
 		let donatedValue = data["total"];
