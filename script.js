@@ -24,19 +24,24 @@ async function formSubmitted() {
 }
 
 const progressBar = async () => {
-	let progressBar = document.getElementById("progress_bar");
-	let progressHeader = document.getElementById("progress_bar_header");
-	let response = await fetch('/admin/update_database,{
-		method: "GET"
-	});
-	let data = await response.json();
-	let donatedValue = data["total"];
-	let goalValue = 12000.00;
-	let percent_width = donatedValue/goalValue * 100;
-	progressBar.style.width = percent_width.toString() + "%";
-	progressHeader.textContent = `We have raised $${donatedValue.toString()} of our $${goalValue.toString()} goal! Thank you so much for your support!`
-	console.log(progressBar.style.width);
-	return 0;
+	try {
+		let progressBar = document.getElementById("progress_bar");
+		let progressHeader = document.getElementById("progress_bar_header");
+		let response = await fetch('/admin/update_database,{
+			method: "GET"
+		});
+		await new Promise(r => setTimeout(r, 5000));
+		let data = await response.json();
+		console.log(data)
+		let donatedValue = data["total"];
+		let goalValue = 12000.00;
+		let percent_width = donatedValue/goalValue * 100;
+		progressBar.style.width = percent_width.toString() + "%";
+		progressHeader.textContent = `We have raised $${donatedValue.toString()} of our $${goalValue.toString()} goal! Thank you so much for your support!`
+		return 0;
+	} catch (err) {
+		console.error(err);
+	}
 }
 
 document.getElementById("data_gatering_form").addEventListener("submit", (e)=>{
