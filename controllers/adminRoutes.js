@@ -23,7 +23,7 @@ const sendWithTwilio = async (mailingList) => {
 	}
 }
 
-const sendEmails = async (mailingList) => {
+const sendEmails = async (mailingList, targetNumber) => {
 	let transporter = nodemailer.createTransport({
 		service: 'gmail',
 		auth: {
@@ -31,6 +31,14 @@ const sendEmails = async (mailingList) => {
 			pass: process.env.GMAIL_ACCOUNT_PASSWORD
 		}
 	});
+	let targetBody = ``;
+	if (targetNumber === 1) {
+		targetBody = `Hey Mustang Family!<br><br>This is Coach Collier from the Lakewood Ranch High School Wrestling Team! We are looking forward to an exciting wrestling season this year! But, we need your help! Our team is looking to raise $12,000 to cover tournament and gear expenses for the season! If you'd like to help us reach that goal, please go to our fundraising campaign page below and click the button that says Donate Now! Whether you donate $2 or $2000 every donation counts!<br><br>Thank you in advance for all of your support! Vamos Mustangos!` 
+	} else if (targetNumber === 2) {
+		targetBody = ``;
+	} else if (targetNumber === 3) {
+		targetBody = ``;
+	}
 	let mailOptions = {
 		from: "robert.collier.120@gmail.com",
 		to:"collierr@manateeschools.net", 
@@ -88,7 +96,7 @@ const sendEmails = async (mailingList) => {
 		<div class="green-section"></div>
 		<div id="main-section">
 			<p id="body-text">
-				Hey Mustang Family!<br><br>This is Coach Collier from the Lakewood Ranch High School Wrestling Team! We are looking forward to an exciting wrestling season this year! But, we need your help! Our team is looking to raise $12,000 to cover tournament and gear expenses for the season! If you'd like to help us reach that goal, please go to our fundraising campaign page below and click the button that says Donate Now! Whether you donate $2 or $2000 every donation counts!<br><br>Thank you in advance for all of your support! Vamos Mustangos!,
+				${targetBody}
 			</p>
 			<button><a href="https://polar-lake-08946-5b3daeb6c84d.herokuapp.com">LRHS Wrestling Fundraising Page</a></button>
 		</div>
