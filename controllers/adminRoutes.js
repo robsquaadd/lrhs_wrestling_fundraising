@@ -116,48 +116,50 @@ const sendEmails = async (mailingList, targetNumber) => {
 	}
 }
 
-const readEmails = () => {
+const readEmails = async () => {
 	const imap = new Imap({
-		user: "robert.collier.120@gmail.com", 
+		user: process.env.GMAIL_ACCOUNT_EMAIL, 
 		password: process.env.GMAIL_ACCOUNT_PASSWORD,
 		host: 'imap.gmail.com',
 		port: 993,
 		tls: true
 	});
+	let runningTotal = 0;
+	let buffer = "";
+	let checkString = "";
+	let returnObject = {};
 	imap.once("ready", () => {
 		imap.openBox('INBOX', true,  (err, box) => {
 			if (err) throw err;
-			let f = imap.seq.fetch(`${box.messages.total-32}:${box.messages.total-30}`, {
-				bodies: ["HEADER.FIELDS (FROM SUBJECT TO DATE)","1"],
+			let f = imap.seq.fetch(`1:${box.messages.total}`, {
+				bodies: ["HEADER.FIELDS (FROM)","1"],
 				struct: true
 			});
 			f.on("message", (msg, seqno) => {
+				/*msg.once("attributes", (attributes) => {
+					console.log("msg.once attributes");
+					//console.log(`Attributes: ${inspect(attributes,false,8)}`);
+				});*/
 				msg.on("body", (stream, info) => {
-					let buffer = '';
 					stream.on('data', (chunk) => {
-						buffer += chunk.toString('utf8');
+						buffer += chunk.toString('utf8'); 
 					});
-					stream.once('end', () => {
-						if (info.which === "1") {
-							let decodedBody = Buffer.from(buffer, "base64").toString('utf8');
-							console.log(`Message ${seqno}\n Parsed Body: ${decodedBody}`);
-						} else {
-							console.log(`Message ${seqno}\n Parsed Header: ${inspect(Imap.parseHeader(buffer))}`);
-						}
-					});
-				});
-				msg.once("attributes", (attributes) => {
-					console.log(`Attributes: ${inspect(attributes,false,8)}`);
+					/*stream.once('end', () => {
+						console.log("stream ended")
+					});*/
 				});
 				msg.once("end", () => {
-					console.log(`Message #${seqno} finished`);
+					let dataArray = buffer.split('<br />');
+					let name = dataArray[3]?.slice(19);
+					let email = dataArray[4]?.slice(20,dataArray[4].length-1);
+					checkString += `${name},${email}\n`
+					runningTotal += Number(dataArray[11].replaceAll(/[^0-9|.]/g,""));
 				});
 			});
 			f.once("error", (err) => {
 				console.log(`Fetch Error: ${err}`);
 			});
 			f.once("end", () => {
-				console.log("done fetching all messages");
 				imap.end();
 			});
 		});
@@ -167,14 +169,17 @@ const readEmails = () => {
 	});
 	imap.once("end", ()=> {
 		console.log("connection ended");
-		return "successful";
+		returnObject["total"] = runningTotal;
+		returnObject["mailingListCheckString"] = checkString;
 	});
 	imap.connect();
+	await new Promise(r => setTimeout(r, 5000))
+	return returnObject;
 }
 
-router.get("/update_database", (req, res) => {
+router.get("/update_database", async (req, res) => {
 	try {
-		let emailResponse= readEmails();
+		let emailResponse = await readEmails();
 		res.send(emailResponse);
 	} catch(err) {
 		console.error(err);

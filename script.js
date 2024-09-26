@@ -26,11 +26,11 @@ async function formSubmitted() {
 const progressBar = async () => {
 	let progressBar = document.getElementById("progress_bar");
 	let progressHeader = document.getElementById("progress_bar_header");
-	/*let response = await fetch('/admin/update_database,{
+	let response = await fetch('/admin/update_database,{
 		method: "GET"
 	});
-	let data = await response.json();*/
-	let donatedValue = 0.00;
+	let data = await response.json();
+	let donatedValue = data["total"];
 	let goalValue = 12000.00;
 	let percent_width = donatedValue/goalValue * 100;
 	progressBar.style.width = percent_width.toString() + "%";
