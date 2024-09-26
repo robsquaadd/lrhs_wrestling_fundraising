@@ -32,7 +32,7 @@ const progressBar = async () => {
 		});
 		let data = await response.json();
 		console.log(data)
-		let donatedValue = data["total"];
+		let donatedValue = 205.00;
 		let goalValue = 12000.00;
 		let percent_width = donatedValue/goalValue * 100;
 		progressBar.style.width = percent_width.toString() + "%";

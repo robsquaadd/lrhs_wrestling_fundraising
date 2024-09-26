@@ -125,8 +125,8 @@ router.get("/update_database", async (req, res) => {
 			port: 993,
 			tls: true
 		});
-		let runningTotal = 0;
 		let buffer = "";
+		let runningTotal = 0;
 		let checkString = "";
 		let returnObject = {};
 		imap.once("ready", () => {
@@ -154,6 +154,7 @@ router.get("/update_database", async (req, res) => {
 						let name = dataArray[3]?.slice(19);
 						let email = dataArray[4]?.slice(20,dataArray[4].length-1);
 						checkString += `${name},${email}\n`
+						console.log(dataArray[11].replaceAll(/[^0-9|.]/g,""));
 						runningTotal += Number(dataArray[11].replaceAll(/[^0-9|.]/g,""));
 					});
 				});
