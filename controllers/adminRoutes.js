@@ -125,7 +125,6 @@ router.get("/update_database", async (req, res) => {
 			port: 993,
 			tls: true
 		});
-		let buffer = "";
 		let runningTotal = 0;
 		let checkString = "";
 		let returnObject = {};
@@ -137,6 +136,7 @@ router.get("/update_database", async (req, res) => {
 					struct: true
 				});
 				f.on("message", (msg, seqno) => {
+					let buffer = "";
 					/*msg.once("attributes", (attributes) => {
 						console.log("msg.once attributes");
 						//console.log(`Attributes: ${inspect(attributes,false,8)}`);
