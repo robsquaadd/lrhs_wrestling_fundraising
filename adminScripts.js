@@ -3,10 +3,11 @@ const mailingListProcessor = async () => {
 		const response = await fetch(`/mailingList`, {
 			method: "GET"
 		});
-		const data = await response.text();
-		let messageObject = {}
-		messageObject["string"] = data;
-		return messageObject;
+		const data = await response.json();
+		console.log(JSON.stringify(data));
+		//let messageObject = {}
+		//messageObject["string"] = data;
+		return data;
 	} catch (err) {
 		console.error(err.message);
 	}
@@ -36,6 +37,11 @@ const sendEmails = async (clickedButtonValue, mailingList) => {
 }
 
 const mainFunction = () => {
+	let get_database_btn = document.getElementById("get_database_btn");
+	get_database_btn.addEventListener("click", (e) => {
+		await mailingListProcessor();
+	});
+	/*
 	let email1=document.getElementById("send_email_1");
 	let email2=document.getElementById("send_email_2");
 	let email3=document.getElementById("send_email_3");
@@ -62,7 +68,8 @@ const mainFunction = () => {
 		} catch (err) {
 			console.error(err);
 		}
-	}); 
+	});
+	*/
 }
 
 mainFunction();

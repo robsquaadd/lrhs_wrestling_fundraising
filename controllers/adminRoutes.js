@@ -105,14 +105,16 @@ const sendEmails = async (mailingList, targetNumber) => {
 </html>`
 	}
 	for (let i=0;i<mailingList.length;i++) {
-		mailOptions.to = mailingList[i][2];
-		transporter.sendMail(mailOptions, (err, info) => {
-			if (err) {
-				console.log(err);
-			} else {
-				console.log("Email Sent!");
-			}
-		});
+		if (mailingList[i][2] !== "") {
+			mailOptions.to = mailingList[i][2];
+			transporter.sendMail(mailOptions, (err, info) => {
+				if (err) {
+					console.log(err);
+				} else {
+					console.log("Email Sent!");
+				}
+			});
+		}
 	}
 }
 
