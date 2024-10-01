@@ -38,7 +38,7 @@ const sendEmails = async (clickedButtonValue, mailingList) => {
 
 const mainFunction = () => {
 	let get_database_btn = document.getElementById("get_database_btn");
-	get_database_btn.addEventListener("click", (e) => {
+	get_database_btn.addEventListener("click", async (e) => {
 		await mailingListProcessor();
 	});
 	/*
