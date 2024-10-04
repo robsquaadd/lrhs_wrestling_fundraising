@@ -5,17 +5,25 @@ const Imap = require("node-imap");
 const inspect = require("util").inspect;
 require("dotenv").config();
 
-const sendWithTwilio = async (mailingList) => {
+const sendWithTwilio = async (mailingList, targetNumber) => {
 	try {
 		const accountSID = process.env.TWILIO_ACCOUNT_SID;
 		const authToken = process.env.TWILIO_AUTH_TOKEN;
 		const client = twilio(accountSID, authToken);
 		const fundraisingLink = "https://polar-lake-08946-5b3daeb6c84d.herokuapp.com";
+		let messageBody = "";
+		if (targetNumber === 1) {
+			messageBody = `Hey Mustang Family! This is Coach Collier from the Lakewood Ranch High School Wrestling Team! We are looking forward to an exciting wrestling season this year! But, we need your help! Our team is looking to raise $12,000 to cover tournament and gear expenses for the season! If you'd like to help us reach that goal, please go to our fundraising campaign page here: ${fundraisingLink} and click the button that says Donate Now! Whether you donate $2 or $2000 every donation counts!Thank you in advance for all of your support! Vamos Mustangos!`;
+		} else if (targetNumber === 2) {
+			messageBody = ``;
+		} else if (targetNumber === 3) {
+			messageBody = ``;
+		}
 		for (let i=0;i<mailingList.length;i++) {
 			 let message = await client.messages.create({
-				body: `Hey Mustang Family! This is Coach Collier from the Lakewood Ranch High School Wrestling Team! We are looking forward to an exciting wrestling season this year! But, we need your help! Our team is looking to raise $12,000 to cover tournament and gear expenses for the season! If you'd like to help us reach that goal, please go to our fundraising campaign page here: ${fundraisingLink} and click the button that says Donate Now! Whether you donate $2 or $2000 every donation counts!Thank you in advance for all of your support! Vamos Mustangos!`,
+				body: messageBody,
 				from: "+19286934017",
-				to: "+1" + mailingList[i][3],
+				to: "+1" + mailingList[i].phoneNumber
 			});
 		}
 	} catch (err) {
@@ -118,7 +126,7 @@ const sendEmails = async (mailingList, targetNumber) => {
 	}
 }
 
-router.get("/update_database", async (req, res) => {
+router.get("/read_emails", async (req, res) => {
 	try {
 		const imap = new Imap({
 			user: process.env.GMAIL_ACCOUNT_EMAIL, 
@@ -128,8 +136,10 @@ router.get("/update_database", async (req, res) => {
 			tls: true
 		});
 		let runningTotal = 0;
-		let checkString = "";
-		let returnObject = {};
+		let returnObject = {
+			"total": 0,
+			data: []
+		};
 		imap.once("ready", () => {
 			imap.openBox('INBOX', true,  (err, box) => {
 				if (err) throw err;
@@ -139,6 +149,7 @@ router.get("/update_database", async (req, res) => {
 				});
 				f.on("message", (msg, seqno) => {
 					let buffer = "";
+					let messageObject = {};
 					/*msg.once("attributes", (attributes) => {
 						console.log("msg.once attributes");
 						//console.log(`Attributes: ${inspect(attributes,false,8)}`);
@@ -153,11 +164,14 @@ router.get("/update_database", async (req, res) => {
 					});
 					msg.once("end", () => {
 						let dataArray = buffer.split('<br />');
-						let name = dataArray[3]?.slice(19);
+						let name = dataArray[3]?.slice(19).split(' ');
 						let email = dataArray[4]?.slice(20,dataArray[4].length-1);
-						checkString += `${name},${email}\n`
-						console.log(dataArray[11].replaceAll(/[^0-9|.]/g,""));
 						runningTotal += Number(dataArray[11].replaceAll(/[^0-9|.]/g,""));
+						messageObject["email"] = email;
+						messageObject["firstName"] = name[0];
+						messageObject["lastName"] = name[1];
+						messageObject["donationFlag"] = 1;
+						returnObject.data.push(messageObject);
 					});
 				});
 				f.once("error", (err) => {
@@ -172,9 +186,7 @@ router.get("/update_database", async (req, res) => {
 			console.error(err);
 		});
 		imap.once("end", ()=> {
-			console.log("connection ended");
 			returnObject["total"] = runningTotal;
-			returnObject["mailingListCheckString"] = checkString;
 			res.send(returnObject);
 		});
 		imap.connect();		
@@ -186,13 +198,8 @@ router.get("/update_database", async (req, res) => {
 
 router.post("/first_email", async (req, res) => {
 	try {
-		let mailingList = req.body["string"]
-		let mailingListArray = mailingList.split("\n");
-		for (let i=0;i<mailingListArray.length;i++) {
-			mailingListArray[i] = mailingListArray[i].split(',')
-		};
-		await sendEmails(mailingListArray);
-		await sendWithTwilio(mailingListArray);
+		await sendEmails(req.body, 1);
+		await sendWithTwilio(req.body, 1);
 		res.send("Messages sent successfully")
 	} catch (err) {
 		console.error(err);

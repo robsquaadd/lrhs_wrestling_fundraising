@@ -22,10 +22,12 @@ Mailinglist.init(
 		email: {
 			type: DataTypes.STRING,
 			allowNull: false,
+			unique: true,
 		},
 		phoneNumber: {
 			type: DataTypes.STRING,
 			allowNull: false,
+			unique: true,
 		},
 		donationFlag: {
 			type: DataTypes.INTEGER,

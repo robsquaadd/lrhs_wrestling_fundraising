@@ -27,7 +27,7 @@ const progressBar = async () => {
 	try {
 		let progressBar = document.getElementById("progress_bar");
 		let progressHeader = document.getElementById("progress_bar_header");
-		let response = await fetch('/admin/update_database',{
+		let response = await fetch('/admin/read_emails',{
 			method: "GET"
 		});
 		let data = await response.json();
