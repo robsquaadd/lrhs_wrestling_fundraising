@@ -47,11 +47,12 @@ const read_emails = async () => {
 	}
 }
 
+/*
 const update_database = async (mailing_list_data, read_email_data) {
 	//TODO: create a function that takes the mailing list data and the email data, compares them, and updates the ones that match to show that they have donated.
 	return 0;
 }
-
+*/
 const progressBar = (read_email_data) => {
 	let progressBar = document.getElementById("progress_bar");
 	let progressHeader = document.getElementById("progress_bar_header");
