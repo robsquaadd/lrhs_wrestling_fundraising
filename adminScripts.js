@@ -34,8 +34,6 @@ const sendEmails = async (clickedButtonValue, mailingList) => {
 	}
 }
 
-const deleteDuplicates = async () {}
-
 const mainFunction = () => {
 	let get_database_btn = document.getElementById("get_database_btn");
 	get_database_btn.addEventListener("click", async (e) => {

@@ -1,6 +1,8 @@
 const {Model, DataTypes} = require("sequelize")
 const sequelize = require("../config/connection");
 
+//TODO: don't allow duplicates.
+
 class Mailinglist extends Model {}
 
 Mailinglist.init(
