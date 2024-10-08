@@ -206,4 +206,22 @@ router.post("/first_email", async (req, res) => {
 	}
 });
 
+router.delete("/delete_duplicates/:id", async (req, res) => {
+	try {
+		let dbUserData = await User.destroy({
+			where: {
+				id: req.params.id
+			}
+		});
+		if (!dbUserData) {
+			res.status(404).json({message: "No user found with this ID."});
+			return;
+		}
+		res.json(dbUserData);
+	}
+	catch (err) {
+		res.status(500).json(err);
+	}
+});
+
 module.exports = router;

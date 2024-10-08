@@ -34,12 +34,20 @@ const sendEmails = async (clickedButtonValue, mailingList) => {
 	}
 }
 
+const deleteDuplicates = async () {}
+
 const mainFunction = () => {
 	let get_database_btn = document.getElementById("get_database_btn");
 	get_database_btn.addEventListener("click", async (e) => {
 		await mailingListProcessor();
 	});
-	
+	/*
+	let update_database_btn = document.getElementById("update_database_btn");
+	update_database_btn.addEventListener("click", async (e) => {
+		//TODO: implement functions that get the mailing list, delete duplicates, read the emails, and update donation flags to a value of 1.
+		await mailingListProcessor();
+		
+	});*/
 	let email1=document.getElementById("send_email_1");
 	//let email2=document.getElementById("send_email_2");
 	//let email3=document.getElementById("send_email_3");
