@@ -53,9 +53,10 @@ const update_database = async (mailing_list_data, read_email_data) {
 	return 0;
 }
 */
-const progressBar = (read_email_data) => {
+const progressBar = async () => {
 	let progressBar = document.getElementById("progress_bar");
 	let progressHeader = document.getElementById("progress_bar_header");
+	let read_email_data = await read_emails();
 	let donatedValue = read_email_data["total"];
 	let goalValue = 12000.00;
 	let percent_width = donatedValue/goalValue * 100;
@@ -66,8 +67,7 @@ const progressBar = (read_email_data) => {
 
 const on_load = async () => {
 	try {
-		const read_email_data = await read_emails();
-		progressBar(read_email_data);
+		const read_email_data = await progressBar();
 		const get_mailing_list_data = await get_mailing_list();
 		await update_database(get_mailing_list_data, read_email_data);
 	} catch (err) {
