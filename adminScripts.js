@@ -11,6 +11,21 @@ const mailingListProcessor = async () => {
 	}
 }
 
+const deleteDuplicates = async (mailingList) => {
+	try {
+		const response = await fetch(`/mailingList`, 
+		{
+			method: "DELETE",
+			body: JSON.stringify(mailingList),
+			headers: {
+				"Content-Type": "application/json"
+			}
+		});
+	} catch (err) {
+		console.error(err.message);
+	}
+}
+
 const sendEmails = async (clickedButtonValue, mailingList) => {
 	try {
 		let slug = "";
@@ -75,6 +90,15 @@ const mainFunction = () => {
 		}
 	});
 	*/
+	let delete_duplicates = document.getElementById("delete_duplicates_btn");
+	delete_duplicates.addEventListener("click", async (e) => {
+		try {
+			let mailingList = await mailingListProcessor();
+			await deleteDuplicates(mailingList);
+		} catch (err) {
+			console.error(err);
+		}
+	});
 }
 
 mainFunction();
