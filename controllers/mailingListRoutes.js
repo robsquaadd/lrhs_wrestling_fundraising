@@ -4,27 +4,17 @@ const fs = require('fs');
 
 const updateDataBase = async (first, last, email, phone) => {
 	try {
-		/* this is to test duplicate algorithms
-		const dbMailingListData = await Mailinglist.create({
-			firstName: first,
-			lastName: last,
-			email: email,
-			phoneNumber: phone,
-			donationFlag: 0,
-		});
-		*/
 		const [dbMailingListData, created] = await Mailinglist.findOrCreate({
 			where: {
+				firstName: first,
+				lastName: last,
 				email: email,
 				phoneNumber: phone,
 			},
 			defaults: {
-				firstName: first,
-				lastName: last,
 				donationFlag: 0,
 			},
 		});
-		//let created = true;
 		let returnObject = {
 			updated: created,
 			data: dbMailingListData

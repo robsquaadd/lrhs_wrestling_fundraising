@@ -11,7 +11,7 @@ const sendWithTwilio = async (mailingList, targetNumber) => {
 		const authToken = process.env.TWILIO_AUTH_TOKEN;
 		const client = twilio(accountSID, authToken);
 		const fundraisingLink = "https://polar-lake-08946-5b3daeb6c84d.herokuapp.com";
-		let messageBody = "";
+		let  messageBody = "";
 		if (targetNumber === 1) {
 			messageBody = `Hey Mustang Family! This is Coach Collier from the Lakewood Ranch High School Wrestling Team! We are looking forward to an exciting wrestling season this year! But, we need your help! Our team is looking to raise $12,000 to cover tournament and gear expenses for the season! If you'd like to help us reach that goal, please go to our fundraising campaign page here: ${fundraisingLink} and click the button that says Donate Now! Whether you donate $2 or $2000 every donation counts!Thank you in advance for all of your support! Vamos Mustangos!`;
 		} else if (targetNumber === 2) {
@@ -203,24 +203,6 @@ router.post("/first_email", async (req, res) => {
 		res.send("Messages sent successfully")
 	} catch (err) {
 		console.error(err);
-	}
-});
-
-router.delete("/delete_duplicates/:id", async (req, res) => {
-	try {
-		let dbUserData = await User.destroy({
-			where: {
-				id: req.params.id
-			}
-		});
-		if (!dbUserData) {
-			res.status(404).json({message: "No user found with this ID."});
-			return;
-		}
-		res.json(dbUserData);
-	}
-	catch (err) {
-		res.status(500).json(err);
 	}
 });
 
