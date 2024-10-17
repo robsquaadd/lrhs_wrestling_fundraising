@@ -52,6 +52,7 @@ const read_emails = async () => {
 const update_database = async (read_email_data) => {
 		try {
 		for (let i=0;i<read_email_data.length;i++) {
+			console.log(read_email_data[i]);
 			let response = await fetch(`/mailingList`, {
 				method: "POST",
 				body: JSON.stringify(read_email_data[i]),
@@ -59,8 +60,6 @@ const update_database = async (read_email_data) => {
 					"Content-Type": "application/json"
 				},
 			});
-			const data = await response.json();
-			console.log(data);
 		} 
 	} catch (err) {
 		console.error(err);
