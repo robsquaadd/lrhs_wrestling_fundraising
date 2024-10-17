@@ -82,8 +82,10 @@ const progressBar = async () => {
 	} catch (err) {
 		console.error(err);
 		let progressHeader = document.getElementById("progress_bar_header");
+		let progressBarContainer = document.getElementById("progress_bar_container");
 		progressHeader.textContent = "Thank you in advance for supporting the Lakewood Ranch Wrestling Team! We are looking forward to a great season!"
-		progressBar.style.display = "hidden";
+		progressBar.style.display = "none";
+		progressBarContainer.style.display = "none";
 	}
 	
 }
