@@ -5,7 +5,8 @@ async function formSubmitted() {
 		first: inputsList[0].value,
 		last: inputsList[1].value,
 		email: inputsList[2].value,
-		phone: parsedPhone
+		phone: parsedPhone,
+		donationFlag: 0,
 	};
 	const url = `/mailingList`;
 	const response = await fetch(url, {
@@ -49,15 +50,17 @@ const read_emails = async () => {
 
 
 const update_database = async (read_email_data) => {
-	//TODO: create a function that takes the mailing list data and the email data, compares them, and updates the ones that match to show that they have donated.
-	try {
+		try {
 		for (let i=0;i<read_email_data.length;i++) {
-			/*
 			let response = await fetch(`/mailingList`, {
-				method: "POST"
+				method: "POST",
+				body: JSON.stringify(read_email_data[i]),
+				headers: {
+					"Content-Type": "application/json"
+				},
 			});
-			*/
-			console.log(read_email_data[i])
+			const data = await response.json();
+			console.log(data);
 		} 
 	} catch (err) {
 		console.error(err);
