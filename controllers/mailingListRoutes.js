@@ -1,10 +1,12 @@
 const router = require("express").Router();
+const { Z_TREES } = require("zlib");
 const { Mailinglist } = require("../models");
 const fs = require('fs');
 
-const updateDataBase = async (first, last, email, phone) => {
+const updateDataBase = async (first, last, email, phone, donationFlag) => {
 	try {
-		const [dbMailingListData, created] = await Mailinglist.findOrCreate({
+		let updated = false;
+		let [dbMailingListData, created] = await Mailinglist.findOrCreate({
 			where: {
 				firstName: first,
 				lastName: last,
@@ -12,11 +14,18 @@ const updateDataBase = async (first, last, email, phone) => {
 				phoneNumber: phone,
 			},
 			defaults: {
-				donationFlag: 0,
+				donationFlag: donationFlag,
 			},
 		});
+		if (created === false && dbMailingListData) {
+			dbMailingListData = await dbMailingListData.update({
+				donationFlag: donationFlag,
+			});
+			updated = true;
+		}
 		let returnObject = {
-			updated: created,
+			created: created,
+			updated: updated,
 			data: dbMailingListData
 		}
 		return returnObject;
@@ -27,8 +36,8 @@ const updateDataBase = async (first, last, email, phone) => {
 
 router.post("/",async (req,res) => {
 	try {
-		let {first, last, email, phone} = req.body;
-		const response = await updateDataBase(first, last, email, phone);
+		let {first, last, email, phone, donationFlag} = req.body;
+		const response = await updateDataBase(first, last, email, phone, donationFlag);
 		res.status(200).send(response);
 	}
 	catch (err) {
