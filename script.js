@@ -66,7 +66,6 @@ const update_database = async (read_email_data) => {
 					"Content-Type": "application/json"
 				},
 			});
-			console.log(response);
 		} 
 	} catch (err) {
 		console.error(err);
