@@ -93,8 +93,9 @@ const progressBar = async () => {
 const on_load = async () => {
 	try {
 		const read_email_data = await progressBar();
-		const get_mailing_list_data = await get_mailing_list();
-		await update_database(read_email_data["data"]);
+		if (read_email_data) {	
+			await update_database(read_email_data["data"]);
+		}
 	} catch (err) {
 		console.log(err);
 	}
