@@ -75,7 +75,7 @@ const progressBar = async () => {
 	let percent_width = donatedValue/goalValue * 100;
 	progressBar.style.width = percent_width.toString() + "%";
 	progressHeader.textContent = `We have raised $${donatedValue.toString()} of our $${goalValue.toString()} goal! Thank you so much for your support!`
-	return 0;
+	return read_email_data;
 }
 
 const on_load = async () => {
