@@ -69,15 +69,23 @@ const update_database = async (read_email_data) => {
 }
 
 const progressBar = async () => {
-	let progressBar = document.getElementById("progress_bar");
-	let progressHeader = document.getElementById("progress_bar_header");
-	let read_email_data = await read_emails();
-	let donatedValue = read_email_data["total"];
-	let goalValue = 12000.00;
-	let percent_width = donatedValue/goalValue * 100;
-	progressBar.style.width = percent_width.toString() + "%";
-	progressHeader.textContent = `We have raised $${donatedValue.toString()} of our $${goalValue.toString()} goal! Thank you so much for your support!`
-	return read_email_data;
+	try {
+		let progressBar = document.getElementById("progress_bar");
+		let progressHeader = document.getElementById("progress_bar_header");
+		let read_email_data = await read_emails();
+		let donatedValue = read_email_data["total"];
+		const goalValue = 12000.00;
+		let percent_width = donatedValue/goalValue * 100;
+		progressBar.style.width = percent_width.toString() + "%";
+		progressHeader.textContent = `We have raised $${donatedValue.toString()} of our $${goalValue.toString()} goal! Thank you so much for your support!`
+		return read_email_data;	
+	} catch (err) {
+		console.error(err);
+		let progressHeader = document.getElementById("progress_bar_header");
+		progressHeader.textContent = "Thank you in advance for supporting the Lakewood Ranch Wrestling Team! We are looking forward to a great season!"
+		progressBar.style.display = "hidden";
+	}
+	
 }
 
 const on_load = async () => {
