@@ -51,7 +51,7 @@ const read_emails = async () => {
 const update_database = async (read_email_data) => {
 	//TODO: create a function that takes the mailing list data and the email data, compares them, and updates the ones that match to show that they have donated.
 	try {
-		
+		console.log("your mom.")
 		for (let i=0;i<read_email_data.length;i++) {
 			/*
 			let response = await fetch(`/mailingList`, {
