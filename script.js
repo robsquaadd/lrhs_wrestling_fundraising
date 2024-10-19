@@ -59,13 +59,19 @@ const update_database = async (read_email_data) => {
 				phone: read_email_data[i].phone,
 				donationFlag: read_email_data[i].donationFlag
 			}
-			let response = await fetch(`/mailingList`, {
+			const response = await fetch(`/mailingList`, {
 				method: "POST",
 				body: JSON.stringify(requestObject),
 				headers: {
 					"Content-Type": "application/json"
 				},
 			});
+			if (response.ok) {
+				const data = response.json();
+				console.log(data);
+			} else {
+				console.log("Database update was not successful.");
+			}
 		} 
 	} catch (err) {
 		console.error(err);

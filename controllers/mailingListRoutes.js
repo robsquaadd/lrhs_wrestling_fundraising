@@ -1,5 +1,4 @@
 const router = require("express").Router();
-const { Z_TREES } = require("zlib");
 const { Mailinglist } = require("../models");
 const fs = require('fs');
 
@@ -17,12 +16,18 @@ const updateDataBase = async (first, last, email, phone, donationFlag) => {
 				donationFlag: donationFlag,
 			},
 		});
+		/*
 		if (created === false && dbMailingListData) {
-			dbMailingListData = await dbMailingListData.update({
+			dbMailingListData = await Mailinglist.update({
 				donationFlag: donationFlag,
+				where: {
+					//TODO: Determine how to write update query for
+					//the mailing list from the email receipts.
+				}
 			});
 			updated = true;
 		}
+		*/
 		let returnObject = {
 			created: created,
 			updated: updated,

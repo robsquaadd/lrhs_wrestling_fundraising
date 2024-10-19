@@ -120,6 +120,13 @@ input {
 	border-radius: 10px;
 }
 
+@media (max-width: 480px) {
+	iframe {
+		max-width: 450px;
+	}
+}
+
+
 @media (max-width: 1024px) {
 	#form_container {
 		width: 80%;
