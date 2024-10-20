@@ -20,8 +20,10 @@ const updateDataBase = async (first, last, email, phone, donationFlag) => {
 			dbMailingListData = await Mailinglist.update({
 				donationFlag: donationFlag,
 				where: {
-					//TODO: Determine how to write update query for
-					//the mailing list from the email receipts.
+					firstName: first,
+					lastName: last,
+					email: email,
+					phoneNumber: phone,
 				}
 			});
 			updated = true;
@@ -41,7 +43,7 @@ router.post("/",async (req,res) => {
 	try {
 		let {first, last, email, phone, donationFlag} = req.body;
 		const response = await updateDataBase(first, last, email, phone, donationFlag);
-		res.status(200).send(response);
+		res.status(200).send({response: response});
 	}
 	catch (err) {
 		console.log(err);
