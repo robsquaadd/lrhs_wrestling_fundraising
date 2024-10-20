@@ -16,7 +16,6 @@ const updateDataBase = async (first, last, email, phone, donationFlag) => {
 				donationFlag: donationFlag,
 			},
 		});
-		/*
 		if (created === false && dbMailingListData) {
 			dbMailingListData = await Mailinglist.update({
 				donationFlag: donationFlag,
@@ -27,7 +26,6 @@ const updateDataBase = async (first, last, email, phone, donationFlag) => {
 			});
 			updated = true;
 		}
-		*/
 		let returnObject = {
 			created: created,
 			updated: updated,

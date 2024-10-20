@@ -104,7 +104,8 @@ const progressBar = async () => {
 const on_load = async () => {
 	try {
 		const read_email_data = await progressBar();
-		if (read_email_data) {	
+		if (read_email_data) {
+			console.log("hello");	
 			await update_database(read_email_data["data"]);
 		}
 	} catch (err) {
