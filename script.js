@@ -29,7 +29,7 @@ const get_mailing_list = async () => {
 		const response = await fetch (`/mailingList`, {
 			method: "GET"
 		});
-		const data = await response.text();
+		const data = await response.json();
 		return data;
 	} catch (err) {
 		console.log(err);
@@ -67,7 +67,7 @@ const update_database = async (read_email_data) => {
 				},
 			});
 			if (response.ok) {
-				const data = response.json();
+				const data = response.text();
 				console.log(data);
 			} else {
 				console.log("Database update was not successful.");
