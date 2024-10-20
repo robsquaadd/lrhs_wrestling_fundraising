@@ -36,6 +36,7 @@ const updateDataBase = async (first, last, email, phone, donationFlag) => {
 		return returnObject;
 	} catch (err) {
 		console.log(err);
+		return err;
 	}
 }
 
@@ -43,7 +44,11 @@ router.post("/",async (req,res) => {
 	try {
 		let {first, last, email, phone, donationFlag} = req.body;
 		const response = await updateDataBase(first, last, email, phone, donationFlag);
-		res.status(200).send({response: response});
+		if (response.ok) {
+			res.status(200).send(response);
+		} else {
+			res.status(500).send(response);
+		}
 	}
 	catch (err) {
 		console.log(err);
