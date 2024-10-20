@@ -29,7 +29,7 @@ const get_mailing_list = async () => {
 		const response = await fetch (`/mailingList`, {
 			method: "GET"
 		});
-		const data = await response.json();
+		const data = await response.text();
 		return data;
 	} catch (err) {
 		console.log(err);
