@@ -4,7 +4,7 @@ const fs = require('fs');
 
 const updateDataBase = async (first, last, email, phone, donationFlag) => {
 	try {
-		let updated = false;
+		let updateSuccessful = 0;
 		let [dbMailingListData, created] = await Mailinglist.findOrCreate({
 			where: {
 				firstName: first,
@@ -17,25 +17,25 @@ const updateDataBase = async (first, last, email, phone, donationFlag) => {
 			},
 		});
 		if (created === false && dbMailingListData) {
-			dbMailingListData = await Mailinglist.update({
-				donationFlag: donationFlag,
-				where: {
-					firstName: first,
-					lastName: last,
-					email: email,
-					phoneNumber: phone,
+			updateSuccessful = await Mailinglist.update(
+				{ donationFlag: donationFlag },
+				{
+					where: {
+						firstName: first,
+						lastName: last,
+						email: email,
+						phoneNumber: phone,
+					}
 				}
-			});
-			updated = true;
+			);
 		}
 		let returnObject = {
 			created: created,
-			updated: updated,
+			updated: updateSuccessful,
 			data: dbMailingListData
 		}
 		return returnObject;
 	} catch (err) {
-		console.log(err);
 		return err;
 	}
 }
@@ -44,14 +44,9 @@ router.post("/",async (req,res) => {
 	try {
 		let {first, last, email, phone, donationFlag} = req.body;
 		const response = await updateDataBase(first, last, email, phone, donationFlag);
-		if (response.ok) {
-			res.status(200).send(response);
-		} else {
-			res.status(500).send(response);
-		}
+		res.status(200).send(response);
 	}
 	catch (err) {
-		console.log(err);
 		res.status(500).send({error: err});
 	}
 });
