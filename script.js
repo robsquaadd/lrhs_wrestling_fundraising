@@ -53,7 +53,7 @@ const update_database = async (read_email_data) => {
 	try {
 		const response = await fetch(`/mailingList`, {
 			method: "POST",
-			body: JSON.stringify(requestObject),
+			body: JSON.stringify(read_email_data),
 			headers: {
 				"Content-Type": "application/json"
 			},
