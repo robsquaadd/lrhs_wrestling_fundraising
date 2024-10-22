@@ -50,29 +50,14 @@ const read_emails = async () => {
 
 
 const update_database = async (read_email_data) => {
-		try {
-		for (let i=0;i<read_email_data.length;i++) {
-			let requestObject = {
-				first: read_email_data[i].firstName,
-				last: read_email_data[i].lastName,
-				email: read_email_data[i].email,
-				phone: read_email_data[i].phone,
-				donationFlag: read_email_data[i].donationFlag
-			}
-			const response = await fetch(`/mailingList`, {
-				method: "POST",
-				body: JSON.stringify(requestObject),
-				headers: {
-					"Content-Type": "application/json"
-				},
-			});
-			if (response.ok) {
-				const data = response.text();
-				console.log(data);
-			} else {
-				console.log("Database update was not successful.");
-			}
-		} 
+	try {
+		const response = await fetch(`/mailingList`, {
+			method: "POST",
+			body: JSON.stringify(requestObject),
+			headers: {
+				"Content-Type": "application/json"
+			},
+		}); 
 	} catch (err) {
 		console.error(err);
 	}
@@ -105,8 +90,9 @@ const on_load = async () => {
 	try {
 		const read_email_data = await progressBar();
 		if (read_email_data) {
-			console.log("hello");	
-			await update_database(read_email_data["data"]);
+			for (let i=0;i<read_email_data.length;i++) {
+				await update_database(read_email_data["data"]);
+			}
 		}
 	} catch (err) {
 		console.log(err);
