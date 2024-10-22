@@ -51,6 +51,7 @@ const read_emails = async () => {
 
 const update_database = async (read_email_data) => {
 	try {
+		console.log(read_email_data);
 		let data_object = {
 			first: read_email_data.firstName,
 			last: read_email_data.lastName,
