@@ -86,16 +86,12 @@ const progressBar = async () => {
 	
 }
 
-const on_load = async () => {
-	try {
-		const read_email_data = await progressBar();
-		if (read_email_data) {
-			for (let i=0;i<read_email_data.length;i++) {
-				await update_database(read_email_data["data"][i]);
-			}
+const on_load = () => {
+	const read_email_data = progressBar();
+	if (read_email_data) {
+		for (let i=0;i<read_email_data.length;i++) {
+			update_database(read_email_data["data"][i]);
 		}
-	} catch (err) {
-		console.log(err);
 	}
 }
 
