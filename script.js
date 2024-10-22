@@ -57,7 +57,9 @@ const update_database = async (read_email_data) => {
 			headers: {
 				"Content-Type": "application/json"
 			},
-		}); 
+		});
+		const data = await response.json();
+		console.log(data); 
 	} catch (err) {
 		console.error(err);
 	}
@@ -86,11 +88,11 @@ const progressBar = async () => {
 	
 }
 
-const on_load = () => {
-	const read_email_data = progressBar();
+const on_load = async () => {
+	const read_email_data = await progressBar();
 	if (read_email_data) {
 		for (let i=0;i<read_email_data.length;i++) {
-			update_database(read_email_data["data"][i]);
+			await update_database(read_email_data["data"][i]);
 		}
 	}
 }
