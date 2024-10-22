@@ -91,7 +91,7 @@ const on_load = async () => {
 		const read_email_data = await progressBar();
 		if (read_email_data) {
 			for (let i=0;i<read_email_data.length;i++) {
-				await update_database(read_email_data["data"]);
+				await update_database(read_email_data["data"][i]);
 			}
 		}
 	} catch (err) {
