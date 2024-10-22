@@ -58,6 +58,7 @@ const update_database = async (read_email_data) => {
 			phone: read_email_data.phone,
 			donationFlag: read_email_data.donationFlag
 		}
+		console.log(data_object);
 		const response = await fetch(`/mailingList`, {
 			method: "POST",
 			body: JSON.stringify(data_object),
