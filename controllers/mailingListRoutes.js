@@ -5,15 +5,18 @@ const fs = require('fs');
 const updateDataBase = async (first, last, email, phone, donationFlag) => {
 	try {
 		let updateSuccessful = 0;
+		if (!phone) {
+			phone = "";
+		}
 		let [dbMailingListData, created] = await Mailinglist.findOrCreate({
 			where: {
 				firstName: first,
 				lastName: last,
 				email: email,
-				phoneNumber: phone,
 			},
 			defaults: {
 				donationFlag: donationFlag,
+				phoneNumber: phone
 			},
 		});
 		if (created === false && dbMailingListData) {
@@ -24,7 +27,6 @@ const updateDataBase = async (first, last, email, phone, donationFlag) => {
 						firstName: first,
 						lastName: last,
 						email: email,
-						phoneNumber: phone,
 					}
 				}
 			);

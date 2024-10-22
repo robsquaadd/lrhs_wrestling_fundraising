@@ -56,10 +56,8 @@ const update_database = async (read_email_data) => {
 			first: read_email_data.firstName,
 			last: read_email_data.lastName,
 			email: read_email_data.email,
-			phone: read_email_data.phone,
 			donationFlag: read_email_data.donationFlag
 		}
-		console.log(data_object);
 		const response = await fetch(`/mailingList`, {
 			method: "POST",
 			body: JSON.stringify(data_object),

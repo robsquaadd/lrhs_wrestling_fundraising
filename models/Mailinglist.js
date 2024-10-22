@@ -28,7 +28,6 @@ Mailinglist.init(
 		},
 		phoneNumber: {
 			type: DataTypes.STRING,
-			allowNull: false,
 			unique: true,
 		},
 		donationFlag: {
