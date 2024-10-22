@@ -51,10 +51,16 @@ const read_emails = async () => {
 
 const update_database = async (read_email_data) => {
 	try {
-		console.log(read_email_data);
+		let data_object = {
+			first: read_email_data.firstName,
+			last: read_email_data.lastName,
+			email: read_email_data.email,
+			phone: read_email_data.phone,
+			donationFlag: read_email_data.donationFlag
+		}
 		const response = await fetch(`/mailingList`, {
 			method: "POST",
-			body: JSON.stringify(read_email_data),
+			body: JSON.stringify(data_object),
 			headers: {
 				"Content-Type": "application/json"
 			},
