@@ -65,8 +65,8 @@ const update_database = async (read_email_data) => {
 				"Content-Type": "application/json"
 			},
 		});
-		const data = await response.json();
-		console.log(data); 
+		//const data = await response.json();
+		//console.log(data); 
 	} catch (err) {
 		console.error(err);
 	}

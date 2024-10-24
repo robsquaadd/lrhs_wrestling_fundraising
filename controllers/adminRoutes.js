@@ -13,9 +13,9 @@ const sendWithTwilio = async (mailingList, targetNumber) => {
 		const fundraisingLink = "https://polar-lake-08946-5b3daeb6c84d.herokuapp.com";
 		let  messageBody = "";
 		if (targetNumber === 1) {
-			messageBody = `Hey Mustang Family! This is Coach Collier from the Lakewood Ranch High School Wrestling Team! We are looking forward to an exciting wrestling season this year! But, we need your help! Our team is looking to raise $12,000 to cover tournament and gear expenses for the season! If you'd like to help us reach that goal, please go to our fundraising campaign page here: ${fundraisingLink} and click the button that says Donate Now! Whether you donate $2 or $2000 every donation counts!Thank you in advance for all of your support! Vamos Mustangos!`;
+			messageBody = `Hey Mustang Family! This is Coach Collier from the Lakewood Ranch High School Wrestling Team! We are looking forward to an exciting wrestling season this year! But, we need your help! Our team is looking to raise $12,000 to cover tournament and gear expenses for the season! If you'd like to help us reach that goal, please go to our fundraising campaign page here: ${fundraisingLink} and click the button that says Donate Now! Whether you donate $2 or $2000 every donation counts! Thank you in advance for all of your support! Vamos Mustangos!`;
 		} else if (targetNumber === 2) {
-			messageBody = ``;
+			messageBody = `Hello Everyone! Words cannot describe how thankful we are for everything you do to help and support our Mustang Wrestling Teams. Last season might have been our best season yet, and we couldn't have done it without you! The 2023-2024 season was the first season of Girls Wrestling at Lakewood Ranch High School, and they did not disappoint, earning the Runner-Up Individual District title. As for the boys, they won the Team District title and the Individual District title, both last season, for the first time in school history. To continue our success on the mat, we need your assistance with fundraising for our teams. We are asking for $12,000 to cover the costs and expenses of running the boys and girls teams. Your contribution helps us pay for tournament entry fees, gear for the kids like warm up tops, cleaning supplies for the wrestling room, and more. Our fundraising page is linked below. If you know of anyone looking to give back to the sport of wrestling, please forward this to them or there is a sign up at the bottom of the page to upload their information. However much you can donate is greatly appreciated, and we thank you for everything you do, can do, and have done to help us out. ¡Vamos Mustangos!`;
 		} else if (targetNumber === 3) {
 			messageBody = ``;
 		}
@@ -43,15 +43,22 @@ const sendEmails = async (mailingList, targetNumber) => {
 	if (targetNumber === 1) {
 		targetBody = `Hey Mustang Family!<br><br>This is Coach Collier from the Lakewood Ranch High School Wrestling Team! We are looking forward to an exciting wrestling season this year! But, we need your help! Our team is looking to raise $12,000 to cover tournament and gear expenses for the season! If you'd like to help us reach that goal, please go to our fundraising campaign page below and click the button that says Donate Now! Whether you donate $2 or $2000 every donation counts!<br><br>Thank you in advance for all of your support! Vamos Mustangos!` 
 	} else if (targetNumber === 2) {
-		targetBody = ``;
+		targetBody = `Hello Everyone,<br><br>This is Coach Nate from the Lakewood Ranch High School Wrestling Team! Words cannot describe how thankful we are for everything you do to help and support our Mustang Wrestling Teams. Last season might have been our best season yet, and we couldn't have done it without you! The 2023-2024 season was the first season of Girls Wrestling at Lakewood Ranch High School, and they did not disappoint, earning the Runner-Up Individual District title. As for the boys, they won the Team District title and the Individual District title, both last season, for the first time in school history.<br><br>To continue our success on the mat, we need your assistance with fundraising for our teams. We are asking for $12,000 to cover the costs and expenses of running the boys and girls teams. Your contribution helps us pay for tournament entry fees, gear for the kids like warm up tops, cleaning supplies for the wrestling room, and more. Our fundraising page is linked below. If you know of anyone looking to give back to the sport of wrestling, please forward this to them or there is a sign up at the bottom of the page to upload their information.<br><br>However much you can donate is greatly appreciated, and we thank you for everything you do, can do, and have done to help us out.<br><br>¡Vamos Mustangos!`;
 	} else if (targetNumber === 3) {
 		targetBody = ``;
 	}
 	let mailOptions = {
-		from: "robert.collier.120@gmail.com",
+		from: "lrhswrestling0@gmail.com",
 		to:"collierr@manateeschools.net", 
-		subject: "subject",
-		html: `<!DOCTYPE html>
+		subject: "Lakewood Ranch Wrestling Fundraising",
+	}
+	for (let i=0;i<mailingList.length;i++) {
+		if (mailingList[i].email && mailingList[i].email !== "") {
+			mailOptions.to = mailingList[i].email;
+			if (mailingList[i].donationFlag === 1) {
+				targetBody = `Hey ${mailingList[i].firstName}!<br><br>The wrestlers and coaches from the Lakewood Ranch Wrestling Team want to take this time to thank you so much for donating to our team! We appreciate your contribution to our program and your contribution to the development of these young men!<br><br>We hate to ask, but could you do one more thing for us? Can you send this to one person that has not heard about Lakewood Ranch Wrestling? We want to spread awareness about what these amazing young men are doing in the classroom, on the mat, and in the community!<br><br>Thank you so much for everything that your do!<br><br>Vamos Mustangos!`;
+			}
+			mailOptions.html = `<!DOCTYPE html>
 <html>
 	<head>
 		<style>
@@ -111,10 +118,6 @@ const sendEmails = async (mailingList, targetNumber) => {
 		<div class="green-section"></div>
 	</body>
 </html>`
-	}
-	for (let i=0;i<mailingList.length;i++) {
-		if (mailingList[i][2] !== "") {
-			mailOptions.to = mailingList[i][2];
 			transporter.sendMail(mailOptions, (err, info) => {
 				if (err) {
 					console.log(err);
