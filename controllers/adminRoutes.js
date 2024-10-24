@@ -15,7 +15,7 @@ const sendWithTwilio = async (mailingList, targetNumber) => {
 		if (targetNumber === 1) {
 			messageBody = `Hey Mustang Family! This is Coach Collier from the Lakewood Ranch High School Wrestling Team! We are looking forward to an exciting wrestling season this year! But, we need your help! Our team is looking to raise $12,000 to cover tournament and gear expenses for the season! If you'd like to help us reach that goal, please go to our fundraising campaign page here: ${fundraisingLink} and click the button that says Donate Now! Whether you donate $2 or $2000 every donation counts! Thank you in advance for all of your support! Vamos Mustangos!`;
 		} else if (targetNumber === 2) {
-			messageBody = `Hello Everyone! Words cannot describe how thankful we are for everything you do to help and support our Mustang Wrestling Teams. Last season might have been our best season yet, and we couldn't have done it without you! The 2023-2024 season was the first season of Girls Wrestling at Lakewood Ranch High School, and they did not disappoint, earning the Runner-Up Individual District title. As for the boys, they won the Team District title and the Individual District title, both last season, for the first time in school history. To continue our success on the mat, we need your assistance with fundraising for our teams. We are asking for $12,000 to cover the costs and expenses of running the boys and girls teams. Your contribution helps us pay for tournament entry fees, gear for the kids like warm up tops, cleaning supplies for the wrestling room, and more. Our fundraising page is linked below. If you know of anyone looking to give back to the sport of wrestling, please forward this to them or there is a sign up at the bottom of the page to upload their information. However much you can donate is greatly appreciated, and we thank you for everything you do, can do, and have done to help us out. ¡Vamos Mustangos!`;
+			messageBody = `Hello Everyone! Words cannot describe how thankful we are for everything you do to help and support our Mustang Wrestling Teams. Last season might have been our best season yet, and we couldn't have done it without you! The 2023-2024 season was the first season of Girls Wrestling at Lakewood Ranch High School, and they did not disappoint, earning the Runner-Up Individual District title. As for the boys, they won the Team District title and the Individual District title, both last season, for the first time in school history. To continue our success on the mat, we need your assistance with fundraising for our teams. We are asking for $12,000 to cover the costs and expenses of running the boys and girls teams. Your contribution helps us pay for tournament entry fees, gear for the kids like warm up tops, cleaning supplies for the wrestling room, and more. Our fundraising page is linked here ${fundraisingLink}. If you know of anyone looking to give back to the sport of wrestling, please forward this to them or there is a sign up at the bottom of the page to upload their information. However much you can donate is greatly appreciated, and we thank you for everything you do, can do, and have done to help us out. ¡Vamos Mustangos!`;
 		} else if (targetNumber === 3) {
 			messageBody = ``;
 		}
@@ -199,10 +199,10 @@ router.get("/read_emails", async (req, res) => {
 });
 
 
-router.post("/first_email", async (req, res) => {
+router.post("/send_email", async (req, res) => {
 	try {
-		await sendEmails(req.body, 1);
-		await sendWithTwilio(req.body, 1);
+		await sendEmails(req.body.mailingList, req.body.targetValue);
+		await sendWithTwilio(req.body.mailingList, req.body.targetValue);
 		res.send("Messages sent successfully")
 	} catch (err) {
 		console.error(err);

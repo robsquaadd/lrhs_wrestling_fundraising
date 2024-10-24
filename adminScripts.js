@@ -28,15 +28,19 @@ const deleteDuplicates = async (mailingList) => {
 
 const sendEmails = async (clickedButtonValue, mailingList) => {
 	try {
-		let slug = "";
+		let targetValue = 0;
 		if (clickedButtonValue === "Send 1st Targeted Email/Text") {
-			slug = "first_email";
+			targetValue = 1;
 		} else if (clickedButtonValue === "Send 2nd Targeted Email/Text") {
-			slug = "second_email";
+			targetValue = 2;
 		} else if (clickedButtonValue === "Send 3rd Targeted Email/Text") {
-			slug = "third_email"
+			targetValue = 3;
 		}
-		const response = await fetch(`/admin/${slug}`,
+		let requestObject = {
+			targetValue: targetValue,
+			mailingList: mailingList
+		}
+		await fetch(`/admin/send_email`,
 		{
 			method: "POST",
 			body: JSON.stringify(mailingList),
