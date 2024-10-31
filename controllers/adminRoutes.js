@@ -54,7 +54,7 @@ const sendEmails = async (mailingList, targetNumber) => {
 	}
 	if (mailingList.email && mailingList.email !== "") {
 		mailOptions.to = mailingList.email;
-		if (mailingList[i].donationFlag === 1) {
+		if (mailingList.donationFlag === 1) {
 			targetBody = `Hey ${mailingList.firstName}!<br><br>The wrestlers and coaches from the Lakewood Ranch Wrestling Team want to take this time to thank you so much for donating to our team! We appreciate your contribution to our program and your contribution to the development of these young men!<br><br>We hate to ask, but could you do one more thing for us? Can you send this to one person that has not heard about Lakewood Ranch Wrestling? We want to spread awareness about what these amazing young men are doing in the classroom, on the mat, and in the community!<br><br>Thank you so much for everything that your do!<br><br>Vamos Mustangos!`;
 		}
 		mailOptions.html = `<!DOCTYPE html>
