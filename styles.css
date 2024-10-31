@@ -1,5 +1,11 @@
+:root {
+	--primary-color: #355E3B;
+	--secondary-color-1: #000000;
+	--secondary-color-2: #FFFFFF;
+}
+
 header {
-	background-color: #000000;
+	background-color: var(--secondary-color-1);
 	border-style: none;
 	overflow: auto;
 }
@@ -7,7 +13,7 @@ header {
 body {
 	padding: 0px;
 	margin: 0px;
-	background-color: #355E3B;
+	background-color: var(--primary-color);
 	height: fit-content;
 }
 
@@ -28,7 +34,7 @@ h1 {
 	height: fit-content;
 	display: flex;
 	flex-wrap: wrap;
-	background-image: linear-gradient(#FFFFFF, #355E3B);
+	background-image: linear-gradient(var(--secondary-color-2), var(--primary-color));
 	background-size: cover;
 	background-position: center;
 	align-items: top;
@@ -46,7 +52,7 @@ h1 {
 }
 
 #below_main {
-	background-color: #355E3B;
+	background-color: var(--primary-color);
 	height: 100vh;
 }
 
@@ -79,14 +85,14 @@ h1 {
 
 #progress_bar_container {
 	border-style: solid;
-	border-color: #355E3B;
+	border-color: var(--primary-color);
 	height: 100px;
 	display: flex;
 	border-radius: 10px;
 }
 
 #progress_bar {
-	background-color: #355E3B;
+	background-color: var(--primary-color);
 	color: #355E3B;
 	height: 100px;
 	z-index: 1;

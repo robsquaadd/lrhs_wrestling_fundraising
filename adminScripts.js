@@ -71,7 +71,9 @@ const mainFunction = () => {
 	email1.addEventListener("click", async (e) => {
 		try {
 			let mailingList = await mailingListProcessor();
-			await sendEmails(e.target.innerText, mailingList);
+			for (let i=0;i<mailingList.length;i++) {
+				await sendEmails(e.target.innerText,mailingList[i]);
+			}
 		} catch (err) {
 			console.error(err);
 		}

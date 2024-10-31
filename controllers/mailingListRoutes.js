@@ -58,7 +58,7 @@ router.get("/", async (req, res) => {
 		let dbMailingListData = await Mailinglist.findAll({});
 		res.json(dbMailingListData);
 	} catch (err) {
-		res.status(500).send("There was an error retrieving the data. Please try again later!");
+		res.status(500).send(err.message);
 	}
 });
 
