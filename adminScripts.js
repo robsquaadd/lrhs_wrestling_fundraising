@@ -40,7 +40,7 @@ const sendEmails = async (clickedButtonValue, mailingList) => {
 			targetValue: targetValue,
 			mailingList: mailingList
 		}
-		await fetch(`/admin/send_email`,
+		const response = await fetch(`/admin/send_email`,
 		{
 			method: "POST",
 			body: JSON.stringify(mailingList),
@@ -48,6 +48,9 @@ const sendEmails = async (clickedButtonValue, mailingList) => {
 				"Content-Type": "application/json",
 			}
 		});
+		if (response.ok) {
+			console.log("Email Sent");
+		}
 	} catch (err) {
 		console.error(err.message);
 	}
