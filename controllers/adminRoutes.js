@@ -52,7 +52,7 @@ const sendEmails = async (mailingList, targetNumber) => {
 		to:"collierr@manateeschools.net", 
 		subject: "Lakewood Ranch Wrestling Fundraising",
 	}
-	
+	console.log(JSON.stringify(mailingList));
 	if (mailingList.email && mailingList.email !== "") {
 		mailOptions.to = mailingList.email;
 		if (mailingList.donationFlag === 1) {
