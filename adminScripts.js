@@ -76,6 +76,7 @@ const mainFunction = () => {
 			let mailingList = await mailingListProcessor();
 			for (let i=0;i<mailingList.length;i++) {
 				await sendEmails(e.target.innerText,mailingList[i]);
+				await new Promise(r => setTimeout(r, 1000));			
 			}
 		} catch (err) {
 			console.error(err);
