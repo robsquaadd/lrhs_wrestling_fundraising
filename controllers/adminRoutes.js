@@ -200,7 +200,7 @@ router.get("/read_emails", async (req, res) => {
 router.post("/send_email", async (req, res) => {
 	try {
 		await sendEmails(req.body.mailingList, req.body.targetValue);
-		await sendWithTwilio(req.body.mailingList, req.body.targetValue);
+		//await sendWithTwilio(req.body.mailingList, req.body.targetValue);
 		res.send("Messages sent successfully")
 	} catch (err) {
 		console.error(err);
