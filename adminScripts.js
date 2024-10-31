@@ -43,7 +43,7 @@ const sendEmails = async (clickedButtonValue, mailingList) => {
 		const response = await fetch(`/admin/send_email`,
 		{
 			method: "POST",
-			body: JSON.stringify(mailingList),
+			body: JSON.stringify(requestObject),
 			headers: {
 				"Content-Type": "application/json",
 			}
