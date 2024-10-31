@@ -33,6 +33,7 @@ const sendWithTwilio = async (mailingList, targetNumber) => {
 
 const sendEmails = async (mailingList, targetNumber) => {
 	let transporter = nodemailer.createTransport({
+		pool: true,
 		service: 'gmail',
 		auth: {
 			user: process.env.GMAIL_ACCOUNT_EMAIL,
@@ -52,13 +53,13 @@ const sendEmails = async (mailingList, targetNumber) => {
 		to:"collierr@manateeschools.net", 
 		subject: "Lakewood Ranch Wrestling Fundraising",
 	}
-	console.log(JSON.stringify(mailingList));
-	if (mailingList.email && mailingList.email !== "") {
-		mailOptions.to = mailingList.email;
-		if (mailingList.donationFlag === 1) {
-			targetBody = `Hey ${mailingList.firstName}!<br><br>The wrestlers and coaches from the Lakewood Ranch Wrestling Team want to take this time to thank you so much for donating to our team! We appreciate your contribution to our program and your contribution to the development of these young men!<br><br>We hate to ask, but could you do one more thing for us? Can you send this to one person that has not heard about Lakewood Ranch Wrestling? We want to spread awareness about what these amazing young men are doing in the classroom, on the mat, and in the community!<br><br>Thank you so much for everything that your do!<br><br>Vamos Mustangos!`;
-		}
-		mailOptions.html = `<!DOCTYPE html>
+	for (let i=0;i<mailingList.length;i++) {
+		if (mailingList[i].email && mailingList[i].email !== "") {
+			mailOptions.to = mailingList[i].email;
+			if (mailingList[i].donationFlag === 1) {
+				targetBody = `Hey ${mailingList[i].firstName}!<br><br>The wrestlers and coaches from the Lakewood Ranch Wrestling Team want to take this time to thank you so much for donating to our team! We appreciate your contribution to our program and your contribution to the development of these young men!<br><br>We hate to ask, but could you do one more thing for us? Can you send this to one person that has not heard about Lakewood Ranch Wrestling? We want to spread awareness about what these amazing young men are doing in the classroom, on the mat, and in the community!<br><br>Thank you so much for everything that your do!<br><br>Vamos Mustangos!`;
+			}
+			mailOptions.html = `<!DOCTYPE html>
 <html>
 	<head>
 		<style>
@@ -118,14 +119,16 @@ const sendEmails = async (mailingList, targetNumber) => {
 		<div class="green-section"></div>
 	</body>
 </html>`
-		transporter.sendMail(mailOptions, (err, info) => {
-			if (err) {
-				console.log(err);
-			} else {
-				console.log("Email Sent!");
-			}
-		});
+			transporter.sendMail(mailOptions, (err, info) => {
+				if (err) {
+					console.log(err);
+				} else {
+					console.log("Email Sent!");
+				}
+			});
+		}
 	}
+	transporter.close();
 }
 
 router.get("/read_emails", async (req, res) => {
@@ -201,7 +204,7 @@ router.get("/read_emails", async (req, res) => {
 router.post("/send_email", async (req, res) => {
 	try {
 		await sendEmails(req.body.mailingList, req.body.targetValue);
-		//await sendWithTwilio(req.body.mailingList, req.body.targetValue);
+		await sendWithTwilio(req.body.mailingList, req.body.targetValue);
 		res.send("Messages sent successfully")
 	} catch (err) {
 		console.error(err);

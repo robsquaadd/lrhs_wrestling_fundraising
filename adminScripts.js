@@ -48,11 +48,8 @@ const sendEmails = async (clickedButtonValue, mailingList) => {
 				"Content-Type": "application/json",
 			}
 		});
-		if (response.ok) {
-			console.log("Email Sent");
-		}
 	} catch (err) {
-		console.error(err.message);
+			console.error(err.message);
 	}
 }
 
@@ -74,11 +71,7 @@ const mainFunction = () => {
 	email1.addEventListener("click", async (e) => {
 		try {
 			let mailingList = await mailingListProcessor();
-			for (let i=0;i<mailingList.length;i++) {
-				console.log(mailingList[i]);
-				await sendEmails(e.target.innerText,mailingList[i]);
-				await new Promise(r => setTimeout(r, 1000));			
-			}
+			await sendEmails(e.target.innerText,mailingList);
 		} catch (err) {
 			console.error(err);
 		}
