@@ -155,28 +155,32 @@ router.get("/read_emails", async (req, res) => {
 				f.on("message", (msg, seqno) => {
 					let buffer = "";
 					let messageObject = {};
-					/*msg.once("attributes", (attributes) => {
-						console.log("msg.once attributes");
-						//console.log(`Attributes: ${inspect(attributes,false,8)}`);
-					});*/
+					let messageSender = "";
+					/*
+					msg.once("attributes", (attributes) => {
+						console.log(`Attributes: ${inspect(attributes,false,8)}`);
+					});
+					*/
 					msg.on("body", (stream, info) => {
 						stream.on('data', (chunk) => {
 							buffer += chunk.toString('utf8'); 
 						});
-						/*stream.once('end', () => {
-							console.log("stream ended")
-						});*/
+						stream.once('end', () => {
+							messageSender = Imap.parseHeader(buffer).from[0];
+						});
 					});
 					msg.once("end", () => {
-						let dataArray = buffer.split('<br />');
-						let name = dataArray[3]?.slice(19).split(' ');
-						let email = dataArray[4]?.slice(20,dataArray[4].length-1);
-						runningTotal += Number(dataArray[11]?.replaceAll(/[^0-9|.]/g,""));
-						messageObject["email"] = email;
-						messageObject["firstName"] = name[0];
-						messageObject["lastName"] = name[1];
-						messageObject["donationFlag"] = 1;
-						returnObject.data.push(messageObject);
+						if (messageSender = "School District of Manatee County Web Store <webstores@revtrak.net>") {
+							let dataArray = buffer.split('<br />');
+							let name = dataArray[3]?.slice(19).split(' ');
+							let email = dataArray[4]?.slice(20,dataArray[4].length-1);
+							runningTotal += Number(dataArray[11]?.replaceAll(/[^0-9|.]/g,""));
+							messageObject["email"] = email;
+							messageObject["firstName"] = name[0];
+							messageObject["lastName"] = name[1];
+							messageObject["donationFlag"] = 1;
+							returnObject.data.push(messageObject);
+						}
 					});
 				});
 				f.once("error", (err) => {

@@ -4,7 +4,6 @@ const mailingListProcessor = async () => {
 			method: "GET"
 		});
 		const data = await response.json();
-		console.log(JSON.stringify(data));
 		return data;
 	} catch (err) {
 		console.error(err.message);
@@ -13,7 +12,7 @@ const mailingListProcessor = async () => {
 
 const deleteDuplicates = async (mailingList) => {
 	try {
-		const response = await fetch(`/mailingList`, 
+		await fetch(`/mailingList`, 
 		{
 			method: "DELETE",
 			body: JSON.stringify(mailingList),
