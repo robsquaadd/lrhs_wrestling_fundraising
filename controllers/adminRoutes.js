@@ -30,14 +30,9 @@ const sendWithTwilio = async (mailingList, targetNumber) => {
 					to: "+1" + mailingList[i].phoneNumber
 				});
 			 }
-			 let message = await client.messages.create({
-				body: messageBody,
-				from: "+19286934017",
-				to: "+1" + mailingList[i].phoneNumber
-			});
 		}
 	} catch (err) {
-		console.error(err);
+			console.error(err);
 	}
 }
 
@@ -138,7 +133,6 @@ const sendEmails = async (mailingList, targetNumber) => {
 			});
 		}
 	}
-	transporter.close();
 }
 
 router.get("/read_emails", async (req, res) => {
