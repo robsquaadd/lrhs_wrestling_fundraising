@@ -174,7 +174,7 @@ router.get("/read_emails", async (req, res) => {
 						});
 					});
 					msg.once("end", () => {
-						if (messageSender = "School District of Manatee County Web Store <webstores@revtrak.net>") {
+						if (messageSender === "School District of Manatee County Web Store <webstores@revtrak.net>") {
 							let dataArray = buffer.split('<br />');
 							let name = dataArray[3]?.slice(19).split(' ');
 							let email = dataArray[4]?.slice(20,dataArray[4].length-1);
