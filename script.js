@@ -78,9 +78,9 @@ const progressBar = async () => {
 		let progressHeader = document.getElementById("progress_bar_header");
 		let read_email_data = await read_emails();
 		const goalValue = 12000.00;
-		let donatedValue = 0;
+		let donatedValue = 2500;
 		if (read_email_data) {
-			donatedValue = read_email_data["total"];
+			donatedValue = donatedValue + read_email_data["total"];
 		}
 		let percent_width = donatedValue/goalValue * 100;
 		progressBar.style.width = percent_width.toString() + "%";
